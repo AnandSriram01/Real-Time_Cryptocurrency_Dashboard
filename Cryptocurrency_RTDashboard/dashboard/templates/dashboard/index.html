@@ -1,0 +1,59 @@
+<html>
+
+<style>
+table, td {
+  border: 1px solid black;
+}
+</style>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+    <script>
+
+    let socket =new WebSocket('ws://localhost:8000/ws/polData/');
+    // socket.onopen =function(e){
+    //     alert('Connection established');
+    // };
+
+    socket.onmessage = function(e){
+        console.log(e.data);
+        var recdData = JSON.parse(e.data);
+        myFunction(recdData);
+    };
+
+    // socket.onclose = function(e){
+    //     alert('Connection CLosed');
+    // };
+
+    function myFunction(data) {
+        var price = data.price;
+        var coin = data.product_id;
+        if (coin == "BTC-USD")
+        {
+            var btc = document.getElementById("myTable").rows[0].cells;
+            btc[1].innerHTML = price;
+        }
+        else if (coin == "ETH-USD")
+        {
+            var eth = document.getElementById("myTable").rows[1].cells;
+            eth[1].innerHTML = price;
+        }
+    }
+
+    </script>
+
+<body>
+    <p>Hello World</p>
+    <table id="myTable">
+      <tr>
+        <td>BTC-USD</td>
+        <td>cell 2</td>
+      </tr>
+      <tr>
+        <td>ETH-USD</td>
+        <td>cell 4</td>
+      </tr>
+    </table>
+</body>
+
+</html>
